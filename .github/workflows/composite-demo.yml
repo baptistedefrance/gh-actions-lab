@@ -9,6 +9,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Recuperer le code
+        uses: actions/checkout@v4
+
       - name: Initialiser le projet
         uses: ./.github/actions/setup-project
         with:
