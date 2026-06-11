@@ -1,0 +1,36 @@
+name: Shell Lab
+
+on:
+  workflow_dispatch:
+
+jobs:
+  commandes-shell:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Recuperer le code
+        uses: actions/checkout@v4
+
+      - name: Script multi-lignes
+        run: |
+          echo "Premiere commande"
+          echo "Deuxieme commande"
+          echo "Troisieme commande"
+
+      - name: Lister le dossier scripts
+        working-directory: ./scripts
+        run: ls -la
+
+      - name: Afficher des variables d'etape
+        env:
+          COURSE_NAME: GitHub Actions
+          EXERCISE_LEVEL: debutant
+        run: |
+          echo "Cours: $COURSE_NAME"
+          echo "Niveau: $EXERCISE_LEVEL"
+
+      - name: Echec volontaire autorise
+        continue-on-error: true
+        run: |
+          echo "Cette etape echoue volontairement."
+          exit 1

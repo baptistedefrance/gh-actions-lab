@@ -1,0 +1,13 @@
+{
+  "name": "gh-actions-lab",
+  "version": "1.0.0",
+  "description": "Laboratoire progressif GitHub Actions.",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "lint": "node --check src/calculator.js"
+  },
+  "devDependencies": {
+    "vitest": "^3.2.4"
+  }
+}

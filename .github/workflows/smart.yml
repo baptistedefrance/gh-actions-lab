@@ -1,0 +1,70 @@
+name: Smart
+
+on:
+  push:
+    branches:
+      - main
+      - '**'
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - main
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - labeled
+      - unlabeled
+  workflow_dispatch:
+    inputs:
+      demo_failure:
+        description: Declencher l'etape d'echec pour tester if failure()
+        required: true
+        default: 'false'
+        type: choice
+        options:
+          - 'false'
+          - 'true'
+
+jobs:
+  jobA:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+
+    steps:
+      - name: Definir une sortie de job
+        id: version
+        run: echo "version=1.0.${{ github.run_number }}" >> "$GITHUB_OUTPUT"
+
+      - name: Seulement sur main
+        if: github.ref == 'refs/heads/main'
+        run: echo "Cette etape s'execute uniquement sur main."
+
+      - name: Seulement avec le label deploy
+        if: github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'deploy')
+        run: echo "La PR contient le label deploy."
+
+      - name: Echec de demonstration
+        id: demo-failure
+        if: github.event_name == 'workflow_dispatch' && inputs.demo_failure == 'true'
+        run: exit 1
+
+      - name: Seulement apres un echec
+        if: failure()
+        run: echo "Une etape precedente a echoue."
+
+      - name: Seulement pour un tag de version
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          echo "Tag de version detecte: ${{ github.ref_name }}"
+
+  jobB:
+    runs-on: ubuntu-latest
+    needs: jobA
+
+    steps:
+      - name: Lire la sortie de jobA
+        run: |
+          echo "Version recue: ${{ needs.jobA.outputs.version }}"

@@ -1,0 +1,28 @@
+name: Setup Project
+description: Prepare le projet Node.js et execute une verification rapide.
+
+inputs:
+  node-version:
+    description: Version de Node.js a installer
+    required: false
+    default: '20'
+
+runs:
+  using: composite
+  steps:
+    - name: Recuperer le code
+      uses: actions/checkout@v4
+
+    - name: Installer Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: npm
+
+    - name: Installer les dependances
+      shell: bash
+      run: npm ci
+
+    - name: Verification du projet
+      shell: bash
+      run: npm test

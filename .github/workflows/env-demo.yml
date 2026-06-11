@@ -1,0 +1,35 @@
+name: Env Demo
+
+on:
+  workflow_dispatch:
+
+env:
+  APP_NAME: my-app
+
+jobs:
+  afficher-configuration:
+    runs-on: ubuntu-latest
+    env:
+      STAGE: ci
+
+    steps:
+      - name: Afficher variables et secret masque
+        env:
+          LOG_LEVEL: debug
+          API_TOKEN: ${{ secrets.API_TOKEN }}
+        run: |
+          echo "APP_NAME=$APP_NAME"
+          echo "STAGE=$STAGE"
+          echo "LOG_LEVEL=$LOG_LEVEL"
+          echo "API_TOKEN=$API_TOKEN"
+
+  appel-api-github:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Appeler l'API GitHub avec GITHUB_TOKEN
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh api /repos/${{ github.repository }}

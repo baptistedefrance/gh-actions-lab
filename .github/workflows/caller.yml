@@ -1,0 +1,13 @@
+name: Caller
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  test-node-22:
+    uses: ./.github/workflows/reusable-test.yml
+    with:
+      node-version: '22'
+    secrets:
+      NPM_TOKEN: ${{ secrets.NPM_TOKEN }}

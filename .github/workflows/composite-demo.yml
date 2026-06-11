@@ -1,0 +1,15 @@
+name: Composite Demo
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  utiliser-action-composite:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Initialiser le projet
+        uses: ./.github/actions/setup-project
+        with:
+          node-version: '20'

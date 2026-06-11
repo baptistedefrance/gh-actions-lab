@@ -1,0 +1,25 @@
+name: Scheduled
+
+on:
+  schedule:
+    - cron: '0 9 * * 1-5'
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environnement cible
+        required: true
+        default: dev
+        type: choice
+        options:
+          - dev
+          - staging
+          - prod
+
+jobs:
+  routine:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Afficher l'environnement selectionne
+        run: |
+          echo "Environnement: ${{ inputs.environment || 'cron' }}"

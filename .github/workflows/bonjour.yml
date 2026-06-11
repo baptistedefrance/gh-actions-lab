@@ -1,12 +1,24 @@
-name: Bonjour
+name: Workflow d'initiation
 
 on:
   push:
 
 jobs:
-  dire-bonjour:
+  saluer-le-monde:
     runs-on: ubuntu-latest
 
     steps:
+      # name: nom visible du workflow dans GitHub Actions.
+      # on: evenement qui declenche le workflow.
+      # jobs: liste des travaux executes par GitHub Actions.
+      # runs-on: type de runner utilise pour le job.
+      # steps: etapes executees dans l'ordre.
+      # run: commande shell lancee sur le runner.
       - name: Afficher un message
         run: echo "Bonjour depuis GitHub Actions !"
+
+      - name: Afficher la date
+        run: date
+
+      - name: Afficher l'acteur GitHub
+        run: echo "Acteur GitHub ${{ github.actor }}"

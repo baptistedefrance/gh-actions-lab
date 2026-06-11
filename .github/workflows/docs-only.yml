@@ -1,0 +1,14 @@
+name: Docs Only
+
+on:
+  push:
+    paths:
+      - 'docs/**'
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Verifier un changement de documentation
+        run: echo "Un fichier du dossier docs a ete modifie."
